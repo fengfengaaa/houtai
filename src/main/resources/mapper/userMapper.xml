@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jingbo.houtai.dao.UserMapper">
+	<resultMap type="user" id="user">
+		<result column="user_id" property="userId" jdbcType="INTEGER" javaType="Integer"/>
+		<result column="user_name" property="userName" jdbcType="VARCHAR" javaType="String"/>
+		<result column="password" property="password" jdbcType="VARCHAR" javaType="String"/>
+		<result column="phone_num" property="phoneNum" jdbcType="VARCHAR" javaType="String"/>
+		<result column="company_name" property="companyName" jdbcType="VARCHAR" javaType="String"/>
+		<result column="address" property="address" jdbcType="VARCHAR" javaType="String"/>
+		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="String"/>
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="String"/>
+		<result column="status" property="status" jdbcType="VARCHAR" javaType="String"/>
+		<result column="privilege" property="privilege" jdbcType="VARCHAR" javaType="String"/>
+		<result column="head_portrait" property="headPortrait" jdbcType="VARCHAR" javaType="String"/>
+		<result column="sys_user_name" property="sysUserName" jdbcType="VARCHAR" javaType="String"/>
+		<collection property="userPrices" javaType="ArrayList" ofType="userPrice" column="user_id" select="com.jingbo.houtai.dao.UserPriceMapper.getUserPriceByUserid"></collection>
+	</resultMap>
+ 
+    <select id="getUserByid" parameterType="java.lang.Integer" resultMap="user">
+        SELECT * FROM user
+        WHERE user_id = #{id}
+    </select>
+
+	<select id="getUserByName" parameterType="java.lang.String" resultMap="user">
+        SELECT * FROM user
+        WHERE user_name = #{name}
+    </select>
+
+	<select id="getAllUser" resultMap="user" parameterType="userParam">
+        SELECT * FROM user WHERE
+		1 = 1
+		<if test="userName != null and userName != ''">
+			AND user_name like concat('%', #{userName}, '%')
+		</if>
+		<if test="phoneNum != null and phoneNum != ''">
+			AND phone_num like concat('%', #{phoneNum}, '%')
+		</if>
+		<if test="sysUserName != null and sysUserName != ''">
+			AND sys_user_name = #{sysUserName}
+		</if>
+		<if test="sysUserNames != null">
+			AND sys_user_name IN
+			<foreach  item="item" collection="sysUserNames" index="index"  open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+        limit #{offset},#{pageSize}
+    </select>
+
+	<select id="getUserNameBySysUserName" resultType="String" parameterType="String">
+		SELECT user_name FROM user WHERE
+		sys_user_name = #{sysUserName}
+	</select>
+
+	<select id="getCountUser" resultType="Integer" parameterType="userParam">
+        SELECT count(user_id) FROM user
+        WHERE 1=1
+		<if test="userName != null and userName != ''">
+			AND user_name like concat('%', #{userName}, '%')
+		</if>
+		<if test="phoneNum != null and phoneNum != ''">
+			AND phone_num like concat('%', #{phoneNum}, '%')
+		</if>
+		<if test="sysUserName != null and sysUserName != ''">
+			AND sys_user_name = #{sysUserName}
+		</if>
+		<if test="sysUserNames != null">
+			AND sys_user_name IN
+			<foreach  item="item" collection="sysUserNames" index="index"  open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+    </select>
+
+	<insert id="addUser" useGeneratedKeys="true" keyProperty="userId" parameterType="user">
+    	INSERT INTO user
+    		(user_name,
+			 password,
+			 company_name,
+			 phone_num,
+			 address,
+			 create_date,
+			 privilege,
+			 head_portrait,
+			 sys_user_name
+			 )
+		VALUES
+			(#{userName},
+			 #{password},
+			 #{companyName},
+			 #{phoneNum},
+			 #{address},
+			 #{createDate},
+			 #{privilege},
+			 #{headPortrait},
+			 #{sysUserName}
+			)
+    </insert>
+
+	<update id="updateUser" parameterType="user">
+        UPDATE user
+        	SET
+        	user_name = #{userName},
+        	company_name = #{companyName},
+			phone_num = #{phoneNum},
+			address = #{address},
+			update_date = #{updateDate},
+			privilege = #{privilege},
+			head_portrait = #{headPortrait},
+			sys_user_name = #{sysUserName}
+        WHERE
+        	user_id = #{userId}
+    </update>
+
+	<update id="updatePassword" parameterType="user">
+        UPDATE user
+        	SET
+        	password = #{password},
+        	update_date = #{updateDate}
+        WHERE
+        	user_name = #{userName}
+    </update>
+
+	<update id="deleteUser" parameterType="user">
+		update  user set status = #{status} WHERE user_id=#{userId}
+	</update>
+
+
+	<update id="batchdeleteUser" parameterType="java.util.List">
+		update  user set status = "D" WHERE user_id in
+		<foreach  item="item" collection="list" index="index"  open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+</mapper>

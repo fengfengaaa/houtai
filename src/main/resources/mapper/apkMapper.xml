@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jingbo.houtai.dao.ApkMapper">
+
+	<select id="getCurrentApk" resultType="aPK">
+		select *
+   			 from  apk
+    			order by version_id desc limit 1;
+	</select>
+
+	<insert id="insertAPK" useGeneratedKeys="true" keyProperty="versionId" parameterType="apk">
+    	INSERT INTO apk
+    		(version_name,
+			 version_num,
+			 version_des,
+			 apk_path,
+			 is_forced_upgrade
+			 )
+		VALUES
+			(#{versionName},
+			 #{versionNum},
+			 #{versionDes},
+			 #{apkPath},
+			 #{isForcedUpgrade}
+			)
+    </insert>
+</mapper>

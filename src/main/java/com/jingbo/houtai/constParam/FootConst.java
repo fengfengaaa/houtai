@@ -1,0 +1,50 @@
+package com.jingbo.houtai.constParam;
+
+public class FootConst {
+    public final static String FOOTTYPE = "footType";//L左脚R右脚
+    public final static String STIFFTOE = "stiffToe";//拇趾僵硬
+    public final static String METATARSALPAIN = "metatarsalPain";//跖骨痛
+    public final static String MORTONNEUROMA = "mortonNeuroma";//莫顿神经瘤
+    public final static String TENDERNESSPAIN = "tendernessPain";//横弓压痛或敏感
+    public final static String PLANTARFASCIITIS = "plantarFasciitis";//足底筋膜炎
+    public final static String CALCANEALSPUR = "calcanealSpur";//跟骨骨刺
+    public final static String HEELPAIN = "heelPain";//足跟痛
+    public final static String TARSALARTHROPATHY = "tarsalArthropathy";//跗骨关节病
+    public final static String ATHEELPAIN = "atHeelPain";//跟腱足跟痛
+    public final static String RHEUMATISM = "rheumatism";//风湿病
+    public final static String SACCHAROSIS = "saccharosis";//糖尿病
+    public final static String MALLETTOE = "malletToe";//锤状趾
+    public final static String CLAWTOE = "clawToe";//爪状趾
+    public final static String HALLUXVALGUS = "halluxValgus";//拇外翻
+    public final static String HIGHARCHEDFOOT = "highArchedFoot";//高弓足
+    public final static String FLATFOOT = "flatfoot";//扁平足
+    public final static String PRONATION = "pronation";//旋前
+    public final static String SUPINATION = "supination";//旋后
+    public final static String VARUSDEFORMITY = "varusDeformity";//内翻畸形
+    public final static String VALGUSDEFORMITY = "valgusDeformity";//外翻畸形
+    public final static String PELVICTILT = "pelvicTilt";//盆骨倾斜
+    public final static String PELVICTORSION = "pelvicTorsion";//盆骨扭转
+    public final static String PELVICPAIN = "pelvicPain";//盆骨痛
+    public final static String GENUVARUS = "genuVarus";//膝内翻
+    public final static String GENUVALGUS = "genuValgus";//膝外翻
+    public final static String UNEQUALLENGTH = "unequalLength";//双下肢不等长
+    public final static String UNILHEMIPLEGIA = "unilHemiplegia";//单侧偏瘫
+    public final static String SPASTICITY = "spasticity";//痉挛状态
+    public final static String HIPFLEXORSHORTENING = "hipFlexorShortening";//屈髋肌短缩
+    public final static String SHORTENINGOPTM = "shorteningoptm";//大腿后肌群短缩
+    public final static String SHORTENINGOATM = "shorteningoatm";//大腿前肌群短缩
+    public final static String SHORTENINGOPLM = "shorteningoplm";//小腿后肌群短缩
+    public final static String SHORTENINGOPCMAAT = "shorteningopcmaat";//小腿后肌群及跟腱短缩
+    public final static String BEARING = "bearing";//承重
+    public final static String PURPOSE="purpose";//用途 以000000000代表是否选择 顺序为篮球、足球、跑步、滑雪、高尔夫、骑行、室内运动、舒适、皮鞋
+    public final static String OUTBOARDLEFT = "outboardLeft";//外侧加高左脚 毫米
+    public final static String OUTBOARDRIGHT = "outboardRight";//外侧加高右脚 毫米
+    public final static String OUTBOARDLOCATION = "outboardLocation";//外侧加高位置 0 全部 1前足 2后足
+    public final static String INBOARDLEFT = "inboardLeft";//内侧加高左脚 毫米
+    public final static String INBOARDRIGHT = "inboardRight";//内侧加高右脚 毫米
+    public final static String INBOARDLOCATION = "inboardLocation";//内侧加高位置  0 全部 1前足 2后足
+    public final static String HEELBOARDLEFT = "heelboardLeft";//后跟加高左脚 毫米
+    public final static String HEELBOARDRIGHT = "heelboardRight";//后跟加高右脚 毫米
+    public final static String SELFCHECK = "selfCheck";//自检 0内八脚 1外八脚 2正常
+    public final static String WEIGHT = "weight";//体重
+}

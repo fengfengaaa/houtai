@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jingbo.houtai.dao.SysUserMapper">
+	<resultMap type="sysUser" id="mysysUser">
+		<result column="user_id" property="userId" jdbcType="INTEGER" javaType="Integer"/>
+		<result column="user_name" property="userName" jdbcType="VARCHAR" javaType="String"/>
+		<result column="password" property="password" jdbcType="VARCHAR" javaType="String"/>
+		<result column="nickname" property="nickname" jdbcType="VARCHAR" javaType="String"/>
+		<result column="email" property="email" jdbcType="VARCHAR" javaType="String"/>
+		<result column="phone_num" property="phoneNum" jdbcType="VARCHAR" javaType="String"/>
+		<result column="status" property="status" jdbcType="VARCHAR" javaType="String"/>
+		<result column="avatar_status" property="avatarStatus" jdbcType="TINYINT" javaType="Short"/>
+		<result column="remark" property="remark" jdbcType="VARCHAR" javaType="String"/>
+		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="String"/>
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="String"/>
+		<result column="account_type" property="accountType" jdbcType="INTEGER" javaType="Integer"/>
+		<result column="user_id_create" property="userIdCreate" jdbcType="INTEGER" javaType="Integer"/>
+	</resultMap>
+
+	<select id="getUserByName" parameterType="java.lang.String" resultType="sysUser">
+        SELECT * FROM sys_user
+        WHERE user_name = #{name}
+    </select>
+
+	<select id="getNameByCreateId" parameterType="java.lang.Integer" resultType="String">
+        SELECT user_name FROM sys_user
+        WHERE user_id_create = #{userId}
+        AND status = "N"
+    </select>
+
+	<select id="getNameByCreateIdAndService" parameterType="java.lang.Integer" resultType="String">
+        SELECT user_name FROM sys_user
+        WHERE user_id_create = #{userId}
+        AND status = "N" AND (account_type = 5 OR account_type = 7)
+    </select>
+
+	<select id="getAllSysUser" parameterType="java.lang.String" resultMap="mysysUser">
+        SELECT * FROM sys_user
+        WHERE
+		1 = 1
+		<if test="userName != null and userName != ''">
+			AND user_name like concat('%', #{userName}, '%')
+		</if>
+		<if test="phoneNum != null and phoneNum != ''">
+			AND phone_num like concat('%', #{phoneNum}, '%')
+		</if>
+		<if test="accountType != null and accountType != ''">
+			AND account_type = #{accountType}
+		</if>
+		<if test="userIdCreate != null and userIdCreate != ''">
+			AND user_id_create = #{userIdCreate}
+		</if>
+
+		limit #{offset},#{pageSize}
+    </select>
+
+	<select id="getCountSysUser" resultType="Integer" parameterType="userParam">
+		SELECT count(user_id) FROM sys_user
+		WHERE 1=1
+		<if test="userName != null and userName != ''">
+			AND user_name like concat('%', #{userName}, '%')
+		</if>
+		<if test="phoneNum != null and phoneNum != ''">
+			AND phone_num like concat('%', #{phoneNum}, '%')
+		</if>
+		<if test="accountType != null and accountType != ''">
+			AND account_type = #{accountType}
+		</if>
+		<if test="userIdCreate != null and userIdCreate != ''">
+			AND user_id_create = #{userIdCreate}
+		</if>
+
+	</select>
+
+	<update id="updateSysUser" parameterType="sysUser">
+        UPDATE sys_user
+        	SET
+        	user_name = #{userName},
+			phone_num = #{phoneNum},
+			nickname = #{nickname},
+			email = #{email},
+			remark = #{remark},
+			update_date = #{updateDate},
+			account_type = #{accountType}
+        WHERE
+        	user_id = #{userId}
+    </update>
+
+	<update id="deleteSysUser" parameterType="sysUser">
+		update  sys_user set status = #{status} WHERE user_id=#{userId}
+	</update>
+
+	<select id="getSysUserByid" parameterType="java.lang.Integer" resultType="sysUser">
+        SELECT * FROM sys_user
+        WHERE user_id = #{userId}
+    </select>
+
+	<select id="getUserByAccountType" parameterType="java.lang.Integer" resultType="sysUser">
+        SELECT * FROM sys_user
+        WHERE account_type = #{accountType}
+    </select>
+
+	<update id="updatePassword" parameterType="sysUser">
+        UPDATE sys_user
+        	SET
+        	password = #{password},
+        	update_date = #{updateDate}
+        WHERE
+        	user_name = #{userName}
+    </update>
+
+
+	<insert id="addSysUser" useGeneratedKeys="true" keyProperty="userId" parameterType="sysUser">
+    	INSERT INTO sys_user
+    		(user_name,
+			 nickname,
+			 phone_num,
+			 password,
+			 create_date,
+			 email,
+			 remark,
+			 account_type,
+			 user_id_create
+			 )
+		VALUES
+			(#{userName},
+			 #{nickname},
+			 #{phoneNum},
+			 #{password},
+			 #{createDate},
+			 #{email},
+			 #{remark},
+			 #{accountType},
+			 #{userIdCreate}
+			)
+    </insert>
+
+	<update id="batchdeleteSysUser" parameterType="java.util.List">
+		update  sys_user set status = "D" WHERE user_id in
+		<foreach  item="item" collection="list" index="index"  open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+</mapper>

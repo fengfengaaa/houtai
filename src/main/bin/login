@@ -1,0 +1,53 @@
+#启动命令所在目录
+APP_HOME=$(cd $(dirname $0); pwd)
+srcPath=$(readlink ${0})
+if [ -f "$srcPath" ];then
+APP_HOME=$(cd $(dirname $srcPath); pwd)
+fi
+APP_HOME=$(dirname $APP_HOME)
+echo "APP_HOME: $APP_HOME"
+
+#Check APP_HOME
+if [ ! -d "$APP_HOME" ];then
+    echo "ERROR:App not found at $APP_HOME"
+    exit 1
+fi
+
+run(){
+  #进入命令所在目录
+  echo "APP_HOME: $APP_HOME"
+  cd $APP_HOME
+  java -jar houtai-1.0.0.jar
+}
+
+start(){
+  #进入命令所在目录
+  echo "APP_HOME: $APP_HOME"
+  cd $APP_HOME
+  nohup java -jar houtai-1.0.0.jar &
+}
+
+stop(){
+  #kill 掉本程序
+  ps -ef | grep houtai-1.0.0.jar | grep -v grep |awk '{print $2}' | xargs sudo kill -9
+}
+case $1 in
+  start)
+   start
+  ;;
+   run)
+     run
+    ;;
+  stop)
+   stop
+  ;;
+  restart)
+   $0 stop
+   sleep 2
+   $0 start
+  ;;
+  *)
+   echo "Usage: {start|stop|restart}"
+  ;;
+esac
+exit 0

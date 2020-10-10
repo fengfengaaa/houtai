@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jingbo.houtai.dao.UserPriceMapper">
+	<resultMap type="userPrice" id="userPrice">
+		<result column="id" property="id" jdbcType="BIGINT" javaType="Long"/>
+		<result column="user_id" property="userId" jdbcType="INTEGER" javaType="Integer"/>
+		<result column="project" property="project" jdbcType="INTEGER" javaType="Integer"/>
+		<result column="price" property="price" jdbcType="DECIMAL" javaType="BIGDECIMAL"/>
+		<result column="advanced_price" property="advancedPrice" jdbcType="DECIMAL" javaType="BIGDECIMAL"/>
+	</resultMap>
+ 
+    <select id="getUserPriceByUserid" parameterType="java.lang.Integer" resultMap="userPrice">
+        SELECT * FROM user_price
+        WHERE user_id = #{id}
+    </select>
+
+	<insert id="batchAddUserPrice" useGeneratedKeys="true" keyProperty="id" parameterType="userPrice">
+    	INSERT INTO user_price
+    		(project,
+			 price,
+			 user_id,
+			 advanced_price
+			 )
+		VALUES
+		<foreach collection="list" item="userPrice" separator=",">
+			(#{userPrice.project},
+			#{userPrice.price},
+			#{userPrice.userId},
+			#{userPrice.advancedPrice}
+			)
+		</foreach>
+    </insert>
+
+	<update id="batchUpdateUserPriceById" parameterType="java.util.List">
+		<foreach collection="list" item="userPrice" index="index" open="" close="" separator=";">
+			update  user_price SET
+			price = #{userPrice.price},
+			advanced_price = #{userPrice.advancedPrice}
+			WHERE id = #{userPrice.id} AND project = #{userPrice.project}
+		</foreach>
+
+	</update>
+
+	<select id="getUserPriceByUseridAndProject" parameterType="java.lang.Integer" resultMap="userPrice">
+        SELECT * FROM user_price
+        WHERE user_id = #{userId} AND project = #{project}
+    </select>
+
+</mapper>

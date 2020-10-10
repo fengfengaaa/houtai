@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jingbo.houtai.dao.FootMapper">
+	<resultMap type="foot" id="myfoot">
+		<id property="footId" column="foot_id" jdbcType="INTEGER" javaType="Integer"/>
+		<result column="stiff_toe" property="stiffToe" jdbcType="TINYINT" javaType="Integer"/>
+		<result column="metatarsal_pain" property="metatarsalPain" jdbcType="TINYINT" javaType="Integer"/>
+		<result column="morton_neuroma" property="mortonNeuroma" jdbcType="TINYINT" javaType="Integer"/>
+		<result column="tenderness_pain" property="tendernessPain" jdbcType="TINYINT" javaType="Integer"/>
+		<result column="plantar_fasciitis" property="plantarFasciitis" jdbcType="TINYINT" javaType="Integer"/>
+		<result column="calcaneal_spur" property="calcanealSpur" jdbcType="TINYINT" javaType="Integer"/>
+		<result column="heel_pain" property="heelPain" jdbcType="TINYINT" javaType="Integer"/>
+		<result column="tarsal_arthropathy" property="tarsalArthropathy" jdbcType="TINYINT" javaType="Integer"/>
+		<result column="at_heel_pain" property="atHeelPain" jdbcType="TINYINT" javaType="Integer"/>
+		<result column="rheumatism" property="rheumatism" jdbcType="TINYINT" javaType="Integer"/>
+		<result column="saccharosis" property="saccharosis" jdbcType="TINYINT" javaType="Integer"/>
+		<result column="mallet_toe" property="malletToe" jdbcType="TINYINT" javaType="Integer"/>
+		<result column="claw_toe" property="clawToe" jdbcType="TINYINT" javaType="Integer"/>
+		<result column="hallux_valgus" property="halluxValgus" jdbcType="TINYINT" javaType="Integer"/>
+		<result column="high_arched_foot" property="highArchedFoot" jdbcType="TINYINT" javaType="Integer"/>
+		<result column="flatfoot" property="flatfoot" jdbcType="TINYINT" javaType="Integer"/>
+		<result column="patient_id" property="patientId" jdbcType="INTEGER" javaType="Integer"/>
+		<result column="pronation" property="pronation" jdbcType="TINYINT" javaType="Integer"/>
+		<result column="supination" property="supination" jdbcType="TINYINT" javaType="Integer"/>
+		<result column="varus_deformity" property="varusDeformity" jdbcType="TINYINT" javaType="Integer"/>
+		<result column="valgus_deformity" property="valgusDeformity" jdbcType="TINYINT" javaType="Integer"/>
+		<result column="pelvic_tilt" property="pelvicTilt" jdbcType="TINYINT" javaType="Integer"/>
+		<result column="pelvic_torsion" property="pelvicTorsion" jdbcType="TINYINT" javaType="Integer"/>
+		<result column="pelvic_pain" property="pelvicPain" jdbcType="TINYINT" javaType="Integer"/>
+		<result column="genu_varus" property="genuVarus" jdbcType="TINYINT" javaType="Integer"/>
+		<result column="genu_valgus" property="genuValgus" jdbcType="TINYINT" javaType="Integer"/>
+		<result column="unequal_length" property="unequalLength" jdbcType="TINYINT" javaType="Integer"/>
+		<result column="unil_hemiplegia" property="unilHemiplegia" jdbcType="TINYINT" javaType="Integer"/>
+		<result column="spasticity" property="spasticity" jdbcType="TINYINT" javaType="Integer"/>
+		<result column="hipFlexor_shortening" property="hipFlexorShortening" jdbcType="TINYINT" javaType="Integer"/>
+		<result column="shorteningoptm" property="shorteningoptm" jdbcType="TINYINT" javaType="Integer"/>
+		<result column="shorteningoatm" property="shorteningoatm" jdbcType="TINYINT" javaType="Integer"/>
+		<result column="shorteningoplm" property="shorteningoplm" jdbcType="TINYINT" javaType="Integer"/>
+		<result column="shorteningopcmaat" property="shorteningopcmaat" jdbcType="TINYINT" javaType="Integer"/>
+		<result column="bearing" property="bearing" jdbcType="INTEGER" javaType="Integer"/>
+		<result column="arch_length" property="archLength" jdbcType="DOUBLE" javaType="Double"/>
+		<result column="foot_length" property="footLength" jdbcType="DOUBLE" javaType="Double"/>
+	</resultMap>
+
+
+	<insert id="addFoot" useGeneratedKeys="true" keyProperty="FootId" parameterType="foot">
+    	INSERT INTO foot
+    		(stiff_toe,
+			 metatarsal_pain,
+			 morton_neuroma,
+			 tenderness_pain,
+			 plantar_fasciitis,
+			 calcaneal_spur,
+			 heel_pain,
+			 tarsal_arthropathy,
+			 at_heel_pain,
+			 rheumatism,
+			 saccharosis,
+			 patient_id,
+			 mallet_toe,
+			 claw_toe,
+			 hallux_valgus,
+			 high_arched_foot,
+			 flatfoot,
+			 foot_type,
+			 pronation,
+			 supination,
+			 varus_deformity,
+			 valgus_deformity,
+			 pelvic_tilt,
+			 pelvic_torsion,
+			 pelvic_pain,
+			 genu_varus,
+			 genu_valgus,
+			 unequal_length,
+			 unil_hemiplegia,
+			 spasticity,
+			 hip_flexor_shortening,
+			 shorteningoptm,
+			 shorteningoatm,
+			 shorteningoplm,
+			 shorteningopcmaat,
+			 bearing,
+			 arch_length,
+			 foot_length
+			 )
+		VALUES
+			(#{stiffToe},
+			 #{metatarsalPain},
+			 #{mortonNeuroma},
+			 #{tendernessPain},
+			 #{plantarFasciitis},
+			 #{calcanealSpur},
+			 #{heelPain},
+			 #{tarsalArthropathy},
+			 #{atHeelPain},
+			 #{rheumatism},
+			 #{saccharosis},
+			 #{patientId},
+			 #{malletToe},
+			 #{clawToe},
+			 #{halluxValgus},
+			 #{highArchedFoot},
+			 #{flatfoot},
+			 #{footType},
+			 #{pronation},
+			 #{supination},
+			 #{varusDeformity},
+			 #{valgusDeformity},
+			 #{pelvicTilt},
+			 #{pelvicTorsion},
+			 #{pelvicPain},
+			 #{genuVarus},
+			 #{genuValgus},
+			 #{unequalLength},
+			 #{unilHemiplegia},
+			 #{spasticity},
+			 #{hipFlexorShortening},
+			 #{shorteningoptm},
+			 #{shorteningoatm},
+			 #{shorteningoplm},
+			 #{shorteningopcmaat},
+			 #{bearing},
+			 #{archLength},
+			 #{footLength}
+			)
+    </insert>
+
+	<update id="updateFoot" parameterType="foot">
+        UPDATE foot
+        	SET
+        	stiff_toe = #{stiffToe},
+        	metatarsal_pain = #{metatarsalPain},
+			morton_neuroma = #{mortonNeuroma},
+			tenderness_pain = #{tendernessPain},
+			plantar_fasciitis = #{plantarFasciitis},
+			calcaneal_spur = #{calcanealSpur},
+			heel_pain = #{heelPain},
+			tarsal_arthropathy = #{tarsalArthropathy},
+			at_heel_pain = #{atHeelPain},
+			rheumatism = #{rheumatism},
+			saccharosis = #{saccharosis},
+			patient_id = #{patientId},
+			mallet_toe = #{malletToe},
+			claw_toe = #{clawToe},
+			mallet_toe = #{malletToe},
+			hallux_valgus = #{halluxValgus},
+			high_arched_foot = #{highArchedFoot},
+			flatfoot = #{flatfoot},
+			foot_type = #{footType},
+			pronation = #{pronation},
+			supination = #{supination},
+			varus_deformity = #{varusDeformity},
+			valgus_deformity = #{valgusDeformity},
+			pelvic_tilt = #{pelvicTilt},
+			pelvic_torsion = #{pelvicTorsion},
+			pelvic_pain = #{pelvicPain},
+			genu_varus = #{genuVarus},
+			genu_valgus = #{genuValgus},
+			unequal_length = #{unequalLength},
+			unil_hemiplegia = #{unilHemiplegia},
+			spasticity = #{spasticity},
+			hip_flexor_shortening = #{hipFlexorShortening},
+			shorteningoptm = #{shorteningoptm},
+			shorteningoatm = #{shorteningoatm},
+			shorteningoplm = #{shorteningoplm},
+			shorteningopcmaat = #{shorteningopcmaat},
+			bearing = #{bearing},
+			arch_length = #{archLength},
+			foot_length = #{footLength}
+        WHERE
+        	foot_id = #{footId}
+    </update>
+
+	<select id="getFootById" resultType="Integer" parameterType="Integer">
+		select * from foot
+		where foot_id = #{footId}
+	</select>
+
+	<select id="getFootByPatientId" resultMap="myfoot" parameterType="Integer">
+		select * from foot
+		where patient_id = #{patientId}
+	</select>
+</mapper>

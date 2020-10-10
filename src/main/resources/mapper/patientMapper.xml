@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jingbo.houtai.dao.PatientMapper">
+	<resultMap type="patient" id="mypatient">
+		<result column="patient_id" property="patientId" jdbcType="INTEGER" javaType="Integer"/>
+		<result column="patient_name" property="patientName" jdbcType="VARCHAR" javaType="String"/>
+		<result column="sex" property="sex" jdbcType="TINYINT" javaType="Integer"/>
+		<result column="phone_num" property="phoneNum" jdbcType="VARCHAR" javaType="String"/>
+		<result column="address" property="address" jdbcType="VARCHAR" javaType="String"/>
+		<result column="birthday" property="birthday" jdbcType="DATE" javaType="String"/>
+		<result column="height" property="height" jdbcType="INTEGER" javaType="Integer"/>
+		<result column="weight" property="weight" jdbcType="DOUBLE" javaType="Double"/>
+		<result column="self_check" property="selfCheck" jdbcType="TINYINT" javaType="Integer"/>
+		<result column="status" property="status" jdbcType="VARCHAR" javaType="String"/>
+		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="String"/>
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="String"/>
+		<result column="file_path" property="filePath" jdbcType="VARCHAR" javaType="String"/>
+		<result column="user_id" property="userId" jdbcType="INTEGER" javaType="Integer"/>
+		<result column="user_name" property="userName" jdbcType="VARCHAR" javaType="String"/>
+		<result column="handedness" property="handedness" jdbcType="VARCHAR" javaType="String"/>
+		<result column="purpose" property="purpose" jdbcType="VARCHAR" javaType="String"/>
+		<result column="assessor" property="assessor" jdbcType="VARCHAR" javaType="String"/>
+		<result column="outboard_left" property="outboardLeft" jdbcType="INTEGER" javaType="Integer"/>
+		<result column="outboard_right" property="outboardRight" jdbcType="INTEGER" javaType="Integer"/>
+		<result column="outboard_location" property="outboardLocation" jdbcType="INTEGER" javaType="Integer"/>
+		<result column="inboard_left" property="inboardLeft" jdbcType="INTEGER" javaType="Integer"/>
+		<result column="inboard_right" property="inboardRight" jdbcType="INTEGER" javaType="Integer"/>
+		<result column="inboard_location" property="inboardLocation" jdbcType="INTEGER" javaType="Integer"/>
+		<result column="heelboard_left" property="heelboardLeft" jdbcType="INTEGER" javaType="Integer"/>
+		<result column="heelboard_right" property="heelboardRight" jdbcType="INTEGER" javaType="Integer"/>
+		<result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="String"/>
+		<result column="shoe_size" property="shoeSize" jdbcType="DOUBLE" javaType="Double"/>
+		<result column="view_on_foot" property="viewOnFoot" jdbcType="VARCHAR" javaType="String"/>
+		<result column="plantar_pressure" property="plantarPressure" jdbcType="VARCHAR" javaType="String"/>
+		<result column="calcaneal_angle" property="calcanealAngle" jdbcType="VARCHAR" javaType="String"/>
+		<result column="are_insoles_made" property="areInsolesMade" jdbcType="INTEGER" javaType="Integer"/>
+		<result column="report_path" property="reportPath" jdbcType="VARCHAR" javaType="String"/>
+		<result column="make_status" property="makeStatus" jdbcType="INTEGER" javaType="Integer"/>
+		<result column="addressee" property="addressee" jdbcType="VARCHAR" javaType="String"/>
+		<result column="addressee_phone" property="addresseePhone" jdbcType="VARCHAR" javaType="String"/>
+		<result column="to_address" property="toAddress" jdbcType="VARCHAR" javaType="String"/>
+		<result column="express_number" property="expressNumber" jdbcType="VARCHAR" javaType="String"/>
+		<result column="express_remark" property="expressRemark" jdbcType="VARCHAR" javaType="String"/>
+		<result column="weight_distribution" property="weightDistribution" jdbcType="VARCHAR" javaType="String"/>
+		<result column="pixel_position" property="pixelPosition" jdbcType="INTEGER" javaType="Integer"/>
+		<result column="make_purpose" property="makePurpose" jdbcType="VARCHAR" javaType="String"/>
+		<collection property="foots" javaType="ArrayList" ofType="foot" column="patient_id" select="com.jingbo.houtai.dao.FootMapper.getFootByPatientId">
+		<!--	<id property="footId" column="foot_id" jdbcType="INTEGER" javaType="Integer"/>
+			<result column="foot_type" property="footType" jdbcType="VARCHAR" javaType="String"/>
+			<result column="stiff_toe" property="stiffToe" jdbcType="TINYINT" javaType="Integer"/>
+			<result column="metatarsal_pain" property="metatarsalPain" jdbcType="TINYINT" javaType="Integer"/>
+			<result column="morton_neuroma" property="mortonNeuroma" jdbcType="TINYINT" javaType="Integer"/>
+			<result column="tenderness_pain" property="tendernessPain" jdbcType="TINYINT" javaType="Integer"/>
+			<result column="plantar_fasciitis" property="plantarFasciitis" jdbcType="TINYINT" javaType="Integer"/>
+			<result column="calcaneal_spur" property="calcanealSpur" jdbcType="TINYINT" javaType="Integer"/>
+			<result column="heel_pain" property="heelPain" jdbcType="TINYINT" javaType="Integer"/>
+			<result column="tarsal_arthropathy" property="tarsalArthropathy" jdbcType="TINYINT" javaType="Integer"/>
+			<result column="at_heel_pain" property="atHeelPain" jdbcType="TINYINT" javaType="Integer"/>
+			<result column="rheumatism" property="rheumatism" jdbcType="TINYINT" javaType="Integer"/>
+			<result column="saccharosis" property="saccharosis" jdbcType="TINYINT" javaType="Integer"/>
+			<result column="mallet_toe" property="malletToe" jdbcType="TINYINT" javaType="Integer"/>
+			<result column="claw_toe" property="clawToe" jdbcType="TINYINT" javaType="Integer"/>
+			<result column="hallux_valgus" property="halluxValgus" jdbcType="TINYINT" javaType="Integer"/>
+			<result column="high_arched_foot" property="highArchedFoot" jdbcType="TINYINT" javaType="Integer"/>
+			<result column="flatfoot" property="flatfoot" jdbcType="TINYINT" javaType="Integer"/>
+			<result column="pronation" property="pronation" jdbcType="TINYINT" javaType="Integer"/>
+			<result column="supination" property="supination" jdbcType="TINYINT" javaType="Integer"/>
+			<result column="varus_deformity" property="varusDeformity" jdbcType="TINYINT" javaType="Integer"/>
+			<result column="valgus_deformity" property="valgusDeformity" jdbcType="TINYINT" javaType="Integer"/>
+			<result column="pelvic_tilt" property="pelvicTilt" jdbcType="TINYINT" javaType="Integer"/>
+			<result column="pelvic_torsion" property="pelvicTorsion" jdbcType="TINYINT" javaType="Integer"/>
+			<result column="pelvic_pain" property="pelvicPain" jdbcType="TINYINT" javaType="Integer"/>
+			<result column="genu_varus" property="genuVarus" jdbcType="TINYINT" javaType="Integer"/>
+			<result column="genu_valgus" property="genuValgus" jdbcType="TINYINT" javaType="Integer"/>
+			<result column="unequal_length" property="unequalLength" jdbcType="TINYINT" javaType="Integer"/>
+			<result column="unil_hemiplegia" property="unilHemiplegia" jdbcType="TINYINT" javaType="Integer"/>
+			<result column="spasticity" property="spasticity" jdbcType="TINYINT" javaType="Integer"/>
+			<result column="hipFlexor_shortening" property="hipFlexorShortening" jdbcType="TINYINT" javaType="Integer"/>
+			<result column="shorteningoptm" property="shorteningoptm" jdbcType="TINYINT" javaType="Integer"/>
+			<result column="shorteningoatm" property="shorteningoatm" jdbcType="TINYINT" javaType="Integer"/>
+			<result column="shorteningoplm" property="shorteningoplm" jdbcType="TINYINT" javaType="Integer"/>
+			<result column="shorteningopcmaat" property="shorteningopcmaat" jdbcType="TINYINT" javaType="Integer"/>
+			<result column="bearing" property="bearing" jdbcType="INTEGER" javaType="Integer"/>-->
+		</collection>
+	</resultMap>
+
+
+	<sql id="selectField">
+		p.user_name,
+		p.patient_id,
+		p.patient_name,
+		p.sex,
+		p.phone_num,
+		p.address,
+		DATE_FORMAT(
+		p.birthday,
+		'%Y-%m-%d'
+		) birthday,
+		p.height,
+		p.weight,
+		p.self_check,
+		p.status,
+		p.create_date,
+		p.update_date,
+		p.file_path,
+		p.handedness,
+		p.purpose,
+		p.assessor,
+		p.outboard_left,
+		p.outboard_right,
+		p.outboard_location,
+		p.inboard_left,
+		p.inboard_right,
+		p.inboard_location,
+		p.heelboard_left,
+		p.heelboard_right,
+		p.remarks,
+		p.shoe_size,
+		p.view_on_foot,
+		p.plantar_pressure,
+		p.calcaneal_angle,
+		p.are_insoles_made,
+		p.report_path,
+		p.make_status,
+		p.addressee,
+		p.addressee_phone,
+		p.to_address,
+		f.foot_id,
+		f.stiff_toe,
+		f.metatarsal_pain,
+		f.morton_neuroma,
+		f.tenderness_pain,
+		f.plantar_fasciitis,
+		f.calcaneal_spur,
+		f.heel_pain,
+		f.tarsal_arthropathy,
+		f.at_heel_pain,
+		f.rheumatism,
+		f.saccharosis,
+		f.mallet_toe,
+		f.claw_toe,
+		f.hallux_valgus,
+		f.high_arched_foot,
+		f.flatfoot,
+		f.foot_type,
+		f.patient_id,
+		f.pronation,
+		f.supination,
+		f.varus_deformity,
+		f.valgus_deformity,
+		f.pelvic_tilt,
+		f.pelvic_torsion,
+		f.pelvic_pain,
+		f.genu_varus,
+		f.genu_valgus,
+		f.unequal_length,
+		f.unil_hemiplegia,
+		f.spasticity,
+		f.hip_flexor_shortening,
+		f.shorteningoptm,
+		f.shorteningoatm,
+		f.shorteningoplm,
+		f.shorteningopcmaat,
+		f.bearing
+	</sql>
+
+	<select id="getCountPatient" resultType="Integer" parameterType="patientParam">
+		SELECT count(patient_id) FROM patient
+		WHERE 1=1
+		<if test="patientName != null and patientName != ''">
+			AND patient_name like concat('%', #{patientName}, '%')
+		</if>
+		<if test="phoneNum != null and phoneNum != ''">
+			AND phone_num like concat('%', #{phoneNum}, '%')
+		</if>
+		<if test="userName != null and userName != ''">
+			AND user_name like concat('%', #{userName}, '%')
+		</if>
+		<if test="sysUserName != null and sysUserName != ''">
+			AND sys_user_name like concat('%', #{sysUserName}, '%')
+		</if>
+		<if test="userNames != null">
+			AND	user_name in
+			<foreach collection="userNames" item="item" index="index" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="makeStatus != null">
+			AND	make_status in
+			<foreach collection="makeStatus" item="item" index="index" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="makeStatu != null and makeStatu != -1">
+			AND make_status = #{makeStatu}
+		</if>
+		AND status = "N"
+	</select>
+
+	<select id="getAllPatient" resultMap="mypatient" parameterType="patientParam">
+		SELECT
+			*
+		 FROM patient p
+		 WHERE
+		1 = 1
+		<if test="patientName != null and patientName != ''">
+			AND p.patient_name like concat('%', #{patientName}, '%')
+		</if>
+		<if test="phoneNum != null and phoneNum != ''">
+			AND p.phone_num like concat('%', #{phoneNum}, '%')
+		</if>
+		<if test="userName != null and userName != ''">
+			AND p.user_name like concat('%', #{userName}, '%')
+		</if>
+		<if test="sysUserName != null and sysUserName != ''">
+			AND sys_user_name like concat('%', #{sysUserName}, '%')
+		</if>
+		<if test="userNames != null">
+			AND	user_name in
+			<foreach collection="userNames" item="item" index="index" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="makeStatus != null">
+			AND	make_status in
+			<foreach collection="makeStatus" item="item" index="index" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="makeStatu != null and makeStatu != -1">
+			AND make_status = #{makeStatu}
+		</if>
+		AND p.status = "N"
+		<choose>
+			<when test="orderBy !=null and orderBy == 'ASC'">
+				ORDER BY p.create_date ASC
+			</when>
+			<otherwise>
+				ORDER BY p.create_date DESC
+			</otherwise>
+		</choose>
+		limit #{offset},#{pageSize}
+	</select>
+
+	<update id="updatePatient" parameterType="patient">
+        UPDATE patient
+        	SET
+        	patient_name = #{patientName},
+        	sex = #{sex},
+			phone_num = #{phoneNum},
+			address = #{address},
+			birthday = #{birthday},
+			height = #{height},
+			weight = #{weight},
+			update_date = #{updateDate},
+			<if test="filePath != null and filePath != ''">
+				 file_path = #{filePath},
+			</if>
+			<if test="reportPath != null and reportPath != ''">
+				report_path = #{reportPath},
+			</if>
+			handedness = #{handedness},
+		    purpose = #{purpose},
+			assessor = #{assessor},
+			outboard_left = #{outboardLeft},
+			outboard_right = #{outboardRight},
+			outboard_location = #{outboardLocation},
+			inboard_left = #{inboardLeft},
+			inboard_right = #{inboardRight},
+			inboard_location = #{inboardLocation},
+			heelboard_left = #{heelboardLeft},
+			heelboard_right = #{heelboardRight},
+			remarks = #{remarks},
+			shoe_size = #{shoeSize},
+		    view_on_foot=#{viewOnFoot},
+		    plantar_pressure=#{plantarPressure},
+			<if test="weightDistribution != null and weightDistribution != ''">
+				weight_distribution = #{weightDistribution},
+			</if>
+			<if test="pixelPosition != null">
+				pixel_position = #{pixelPosition},
+			</if>
+			calcaneal_angle=#{calcanealAngle}
+        WHERE
+        	patient_id = #{patientId}
+    </update>
+
+	<update id="deletePatient" parameterType="patient">
+		update  patient set status = #{status} WHERE patient_id=#{patientId}
+	</update>
+
+	<update id="batchdeletePatient" parameterType="java.util.List">
+		update  patient set status = "D" WHERE patient_id in
+		<foreach  item="item" collection="list" index="index"  open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<insert id="addPatient" useGeneratedKeys="true" keyProperty="patientId" parameterType="patient">
+    	INSERT INTO patient
+    		(patient_name,
+			 sex,
+			 phone_num,
+			 address,
+			 birthday,
+			 height,
+			 weight,
+			 self_check,
+			 status,
+			 create_date,
+			 update_date,
+			 file_path,
+			 user_id,
+			 user_name,
+			 handedness,
+			 purpose,
+		     assessor,
+		     outboard_left,
+		     outboard_right,
+		     outboard_location,
+		     inboard_left,
+		     inboard_right,
+		     inboard_location,
+		     heelboard_left,
+		     heelboard_right,
+		     remarks,
+		     shoe_size,
+		     view_on_foot,
+		     plantar_pressure,
+		     calcaneal_angle,
+		     are_insoles_made,
+		     report_path,
+		     pixel_position,
+		     weight_distribution,
+		     sys_user_name
+			 )
+		VALUES
+			(#{patientName},
+			 #{sex},
+			 #{phoneNum},
+			 #{address},
+			 #{birthday},
+			 #{height},
+			 #{weight},
+			 #{selfCheck},
+			 #{status},
+			 #{createDate},
+			 #{updateDate},
+			 #{filePath},
+			 #{userId},
+			 #{userName},
+			 #{handedness},
+			 #{purpose},
+			 #{assessor},
+			 #{outboardLeft},
+			 #{outboardRight},
+			 #{outboardLocation},
+			 #{inboardLeft},
+			 #{inboardRight},
+			 #{inboardLocation},
+			 #{heelboardLeft},
+			 #{heelboardRight},
+			 #{remarks},
+			 #{shoeSize},
+			 #{viewOnFoot},
+		     #{plantarPressure},
+		     #{calcanealAngle},
+		     #{areInsolesMade},
+		     #{reportPath},
+		     #{pixelPosition},
+		     #{weightDistribution},
+		     #{sysUserName}
+			)
+    </insert>
+
+	<select id="getPatientByid" parameterType="java.lang.Integer" resultMap="mypatient">
+		SELECT
+			*
+		FROM patient p
+		WHERE p.status = "N"
+        AND p.patient_id = #{id}
+    </select>
+
+	<select id="getPatientByName" parameterType="java.lang.String" resultMap="mypatient">
+       SELECT
+			*
+		 FROM patient p
+		WHERE p.status = "N"
+        AND p.patient_name = #{name}
+        ORDER BY p.create_date DESC
+    </select>
+
+	<select id="test" resultMap="mypatient">
+        SELECT
+		p.*,f.*
+		FROM patient p, foot f
+		WHERE
+		p.patient_id = f.patient_id
+		AND p.status = "N"
+    </select>
+
+	<update id="updateInsoleState" parameterType="java.util.List">
+		update  patient set make_status = #{makeStatus},update_date = #{updateDate},make_purpose=#{makePurpose} WHERE patient_id = #{patientId}
+	</update>
+
+	<update id="updateExpress" parameterType="java.util.List">
+		update  patient set
+		make_status = #{makeStatus},
+		update_date = #{updateDate},
+		addressee= #{addressee},
+		addressee_phone = #{addresseePhone},
+		to_address = #{toAddress},
+		express_number = #{expressNumber},
+		express_remark = #{expressRemark}
+		WHERE patient_id = #{patientId}
+	</update>
+
+	<update id="updatePatientFilePath">
+		update  patient set
+		file_path = #{filePath}
+		WHERE patient_id = #{patientId}
+	</update>
+
+	<update id="updatePatientReportPath">
+		update  patient set
+		report_path = #{reportPath}
+		WHERE patient_id = #{patientId}
+	</update>
+</mapper>
