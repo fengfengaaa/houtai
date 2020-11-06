@@ -31,6 +31,7 @@ public class SysUserServiceImpl implements SysUserService {
     public PageResult<SysUser> getAllSysUser(SysUserParam sysUserParam) {
         Integer offset = (sysUserParam.getPageIndex() - 1) * sysUserParam.getPageSize();
         sysUserParam.setOffset(offset);
+        System.out.println("===>accountType:" + sysUserParam.getAccountType());
         List<SysUser> allUser = sysUserMapper.getAllSysUser(sysUserParam);
         Integer countUser = sysUserMapper.getCountSysUser(sysUserParam);
         PageResult pageResult = new PageResult();

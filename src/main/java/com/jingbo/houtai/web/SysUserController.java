@@ -5,6 +5,7 @@ import com.jingbo.houtai.constParam.AccountTypeEnum;
 import com.jingbo.houtai.entity.*;
 import com.jingbo.houtai.result.JsonResult;
 import com.jingbo.houtai.result.ResponseCode;
+import com.jingbo.houtai.service.PatientService;
 import com.jingbo.houtai.service.SysUserService;
 import com.jingbo.houtai.util.MD5Utils;
 import com.jingbo.houtai.util.ShiroUtils;
@@ -15,16 +16,17 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/sysuser")
 public class SysUserController extends BaseController {
     @Autowired
     private SysUserService sysUserService;
+
+    @Autowired
+    private PatientService patientServiceImpl;
 
     @GetMapping("/all")
     public PageResult<SysUser> getAllSysUserInfo(@Valid SysUserParam sysUserParam) {
@@ -86,11 +88,42 @@ public class SysUserController extends BaseController {
         return JsonResult.success(result);
     }
 
+    /**
+     * 获取root和普通root
+     * @author liufeng
+     * @date 2020/9/13 0013 21:59
+     */
+    @GetMapping("/allrootname")
+    public JsonResult getAllRootSysUserInfo() {
+        List<SysUser> result;
+        try {
+            List<SysUser> ordinaryroot = sysUserService.getUserByAccountType(AccountTypeEnum.ORDINARYROOT.getType());
+            List<SysUser> superadmin = sysUserService.getUserByAccountType(AccountTypeEnum.SUPERADMIN.getType());
+            ordinaryroot.addAll(superadmin);
+            result = ordinaryroot;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return JsonResult.fail(e.getMessage());
+        }
+        return JsonResult.success(result);
+    }
+
     @PostMapping("/update")
     public JsonResult updateSysUserInfo(SysUser sysUser) {
         try {
             sysUser.setUpdateDate(DateUtil.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+            if(!AccountTypeEnum.SERVICE.getType().equals(sysUser.getAccountType())){
+                sysUser.setUserIdCreate(null);
+            }
             sysUserService.updateSysUser(sysUser);
+           /* if(AccountTypeEnum.SERVICE.getType().equals(sysUser.getAccountType()) && sysUser.getUserIdCreate() != null){//需要更新patient
+                String userName = sysUser.getUserName();
+                Integer userIdCreate = sysUser.getUserIdCreate();
+                SysUser sysUserByid = sysUserService.getSysUserByid(userIdCreate);
+                if(sysUserByid!= null){
+                    this.patientServiceImpl.updateSysUserNameByUserName(userName,sysUserByid.getUserName());
+                }
+            }*/
         } catch (Exception e) {
             e.printStackTrace();
             return JsonResult.fail("发生异常，请联系it人员");
@@ -169,7 +202,10 @@ public class SysUserController extends BaseController {
             }
             Subject subject = ShiroUtils.getSubject();
             Object principal = subject.getPrincipal();
-            if (principal instanceof SysUser) {
+            if(!AccountTypeEnum.SERVICE.getType().equals(sysUser.getAccountType())){
+                sysUser.setUserIdCreate(null);
+            }
+            if (principal instanceof SysUser && sysUser.getUserIdCreate() == null) {
                 Integer accountType = ((SysUser) principal).getAccountType();
                 if (AccountTypeEnum.ORDINARYROOT.getType().equals(accountType) || AccountTypeEnum.SERVICE.getType().equals(accountType)) { //服务商和普通root都可以创建系统账号
                     Integer userId = ((SysUser) principal).getUserId();

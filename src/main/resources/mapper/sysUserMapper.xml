@@ -44,7 +44,7 @@
 		<if test="phoneNum != null and phoneNum != ''">
 			AND phone_num like concat('%', #{phoneNum}, '%')
 		</if>
-		<if test="accountType != null and accountType != ''">
+		<if test="accountType != null and accountType != -1">
 			AND account_type = #{accountType}
 		</if>
 		<if test="userIdCreate != null and userIdCreate != ''">
@@ -63,7 +63,7 @@
 		<if test="phoneNum != null and phoneNum != ''">
 			AND phone_num like concat('%', #{phoneNum}, '%')
 		</if>
-		<if test="accountType != null and accountType != ''">
+		<if test="accountType != null and accountType != -1">
 			AND account_type = #{accountType}
 		</if>
 		<if test="userIdCreate != null and userIdCreate != ''">
@@ -81,6 +81,9 @@
 			email = #{email},
 			remark = #{remark},
 			update_date = #{updateDate},
+			<if test="userIdCreate != null and userIdCreate != ''">
+			user_id_create = #{userIdCreate},
+			</if>
 			account_type = #{accountType}
         WHERE
         	user_id = #{userId}

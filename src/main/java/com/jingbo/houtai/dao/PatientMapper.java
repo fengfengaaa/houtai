@@ -38,4 +38,6 @@ public interface PatientMapper {
     void updatePatientFilePath(@Param("patientId") Integer patientId, @Param("filePath")String path);
 
     void updatePatientReportPath(@Param("patientId")Integer patientId, @Param("reportPath")String path);
+
+    void updateSysUserNameByUserName(@Param("userName")String userName, @Param("sysUserName")String sysUserName);
 }

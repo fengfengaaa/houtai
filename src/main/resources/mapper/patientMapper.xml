@@ -173,8 +173,11 @@
 		<if test="phoneNum != null and phoneNum != ''">
 			AND phone_num like concat('%', #{phoneNum}, '%')
 		</if>
-		<if test="userName != null and userName != ''">
+		<if test="userName != null and userName != '' and !userName.contains('full_')">
 			AND user_name like concat('%', #{userName}, '%')
+		</if>
+		<if test="userName != null and userName != '' and userName.contains('full_')">
+			AND user_name = substring(#{userName},6)
 		</if>
 		<if test="sysUserName != null and sysUserName != ''">
 			AND sys_user_name like concat('%', #{sysUserName}, '%')
@@ -209,8 +212,11 @@
 		<if test="phoneNum != null and phoneNum != ''">
 			AND p.phone_num like concat('%', #{phoneNum}, '%')
 		</if>
-		<if test="userName != null and userName != ''">
-			AND p.user_name like concat('%', #{userName}, '%')
+		<if test="userName != null and userName != '' and !userName.contains('full_')">
+			AND user_name like concat('%', #{userName}, '%')
+		</if>
+		<if test="userName != null and userName != '' and userName.contains('full_')">
+			AND user_name = substring(#{userName},6)
 		</if>
 		<if test="sysUserName != null and sysUserName != ''">
 			AND sys_user_name like concat('%', #{sysUserName}, '%')
@@ -426,4 +432,11 @@
 		report_path = #{reportPath}
 		WHERE patient_id = #{patientId}
 	</update>
+
+	<update id="updateSysUserNameByUserName">
+		update patient set
+		sys_user_name = #{sysUserName}
+		WHERE user_name = #{userName}
+	</update>
+
 </mapper>

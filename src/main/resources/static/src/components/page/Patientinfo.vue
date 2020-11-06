@@ -130,6 +130,13 @@
                         <el-button
                                 type="text"
                                 icon="el-icon-edit"
+                                v-if="scope.row.makeStatus=='4'"
+                                @click="onlyShowExpress(scope.$index, scope.row)">
+                            查看快递
+                        </el-button>
+                        <el-button
+                                type="text"
+                                icon="el-icon-edit"
                                 v-if="scope.row.makeStatus=='4' && hasPerm('patientinfo:editExpress')"
                                 @click="showExpress(scope.$index, scope.row)">
                             修改快递
@@ -318,6 +325,36 @@
             </span>
         </el-dialog>
 
+        <!-- 仅查看快递信息框弹出 -->
+        <el-dialog title="编辑" :visible.sync="showExpressVisible" width="30%">
+            <el-form ref="form" :model="form" label-width="90px">
+                <el-form-item label="ID">
+                    <el-input v-model="form.patientId" disabled></el-input>
+                </el-form-item>
+                <el-form-item label="患者姓名">
+                    <el-input v-model="form.patientName" placeholder="请输入姓名" disabled></el-input>
+                </el-form-item>
+                <el-form-item label="收件人姓名">
+                    <el-input v-model="form.addressee" placeholder="请输入收件人姓名" disabled ></el-input>
+                </el-form-item>
+                <el-form-item label="收件人电话">
+                    <el-input v-model="form.addresseePhone" placeholder="请输入收件人电话" disabled></el-input>
+                </el-form-item>
+                <el-form-item label="收件人地址">
+                    <el-input v-model="form.toAddress" placeholder="请输入收件人地址" disabled></el-input>
+                </el-form-item>
+                <el-form-item label="快递单号">
+                    <el-input v-model="form.expressNumber" placeholder="请输入快递单号" disabled></el-input>
+                </el-form-item>
+                <el-form-item label="备注">
+                    <el-input v-model="form.expressRemark" placeholder="请输入备注" disabled></el-input>
+                </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer" v-if="this.form.makeStatus == 4">
+                <el-button @click="showExpressVisible = false">取 消</el-button>
+            </span>
+        </el-dialog>
+
         <el-dialog title="查看结果" :visible.sync="pdfVisible"  :fullscreen="true">
                 <iframe :src=this.filePath frameborder="0" style="width: 100vw; height: 80vh"></iframe>
         </el-dialog>
@@ -355,6 +392,7 @@ export default {
             reportPdfVisible: false,
             expressVisible: false,
             updateExpressVisible: false,
+            showExpressVisible: false,
             totalRecords: 0,
             exportTotalRecords: 0,
             form: {},
@@ -599,6 +637,12 @@ export default {
             this.idx = index;
             this.form = row;
             this.updateExpressVisible = true;
+            this.getData();
+        },
+        onlyShowExpress(index, row){
+            this.idx = index;
+            this.form = row;
+            this.showExpressVisible = true;
             this.getData();
         },
         // 编辑操作

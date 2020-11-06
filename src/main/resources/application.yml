@@ -30,7 +30,9 @@ spring:
     multipart:
       max-file-size: 100MB
       max-request-size: 100MB
-
+  mvc:
+    async:
+      request-timeout: 30000
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
   type-aliases-package: com.jingbo.houtai.entity
@@ -42,6 +44,7 @@ superuser:
   password: admin
 logging:
   config: classpath:logback.xml
+  com.jingbo.houtai.dao: debug
 file:
   pdf:
     upload:

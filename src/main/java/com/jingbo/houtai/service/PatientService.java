@@ -30,4 +30,6 @@ public interface PatientService {
     void updatePatientFilePath(Integer patientId,String path);
 
     void updatePatientReportPath(Integer patientId,String path);
+
+    void updateSysUserNameByUserName(String UserName,String sysUserName);
 }

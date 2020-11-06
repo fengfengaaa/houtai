@@ -102,4 +102,9 @@ public class PatientServiceImpl implements PatientService {
     public void updatePatientReportPath(Integer patientId, String path) {
         patientMapper.updatePatientReportPath(patientId,path);
     }
+
+    @Override
+    public void updateSysUserNameByUserName(String UserName, String sysUserName) {
+        patientMapper.updateSysUserNameByUserName(UserName, sysUserName);
+    }
 }

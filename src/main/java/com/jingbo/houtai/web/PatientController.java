@@ -303,7 +303,7 @@ public class PatientController {
                     }
                 }
 
-                if(AccountTypeEnum.FINANCE.getType().equals(accountType) || AccountTypeEnum.OPERATE.getType().equals(accountType)){//运营、财务账号 只能查看他们隶属于的服务商下边的权限
+                if(AccountTypeEnum.FINANCE.getType().equals(accountType) || AccountTypeEnum.OPERATE.getType().equals(accountType) || AccountTypeEnum.ORDINARYROOT.getType().equals(accountType)){//运营、财务账号 只能查看他们隶属于的服务商下边的权限
                     SysUser sysUser = this.sysUserServiceImpl.getSysUserByid(userIdCreate);
                     if(sysUser != null){
                         if(AccountTypeEnum.SERVICE.getType().equals(sysUser.getAccountType())){
@@ -315,9 +315,14 @@ public class PatientController {
                     }
                 }
 
-                if(AccountTypeEnum.ORDINARYROOT.getType().equals(accountType)){//普通root只能查看他名下的服务商的机器下的账号
+           /*     if(AccountTypeEnum.ORDINARYROOT.getType().equals(accountType)){//普通root只能查看他名下的服务商的机器下的账号
                     patientParam.setSysUserName(((SysUser) principal).getUserName());
-                }
+                }*/
+            }else{
+                String userName = ((User) principal).getUserName();
+                List<String> userNames = new ArrayList<>();
+                userNames.add(userName);
+                patientParam.setUserNames(userNames);
             }
             result = patientServiceImpl.getAllPatient(patientParam);
         }catch(Exception e){

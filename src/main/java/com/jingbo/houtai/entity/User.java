@@ -14,7 +14,9 @@ import java.util.List;
 @Getter
 @Setter
 public class User extends BaseUser{
+    @NotBlank(message = "请输入公司名称")
     private String companyName;//公司名称
+    @NotBlank(message = "请输入地址")
     private String address;//地址
     @DateTimeFormat(pattern = "%Y-%m-%d %H:%i:%s")
     private String createDate;

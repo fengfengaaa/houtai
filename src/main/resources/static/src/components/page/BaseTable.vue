@@ -116,7 +116,7 @@
 
         <!-- 编辑弹出框 -->
         <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
-            <el-form ref="form" :model="form" label-width="70px">
+            <el-form ref="form" :model="form" label-width="75px">
                 <el-form-item label="ID">
                     <el-input v-model="form.userId" disabled></el-input>
                 </el-form-item>
@@ -126,13 +126,13 @@
                <!-- <el-form-item label="密码">
                     <el-input v-model="form.password" maxlength="40" placeholder="请输入密码" value="******" disabled>******</el-input>
                 </el-form-item>-->
-                <el-form-item label="联系方式">
+                <el-form-item label="联系方式" required>
                     <el-input type="text" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="11" v-model="form.phoneNum" placeholder="请输入电话，只能是数字"></el-input>
                 </el-form-item>
-                <el-form-item label="公司名称">
+                <el-form-item label="公司名称" required>
                     <el-input v-model="form.companyName" placeholder="请输入公司名称"></el-input>
                 </el-form-item>
-                <el-form-item label="地址">
+                <el-form-item label="地址" required>
                     <el-input v-model="form.address" placeholder="请输入地址"></el-input>
                 </el-form-item>
                 <el-form-item label="权限">
@@ -142,7 +142,7 @@
                         <el-option key='2' label="显示结果" value=2></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="服务商" required>
+                <el-form-item label="B级账号" required>
                     <el-select v-model="form.sysUserName" placeholder="请选择" >
                         <el-option v-for="item in this.serviceName" :key="item" :label="item" :value="item">
                         </el-option>
@@ -157,20 +157,20 @@
 
         <!-- 新增弹出框 -->
         <el-dialog title="新增" :visible.sync="addVisible" width="30%">
-            <el-form ref="form" :model="form" label-width="70px" :rules="rules">
+            <el-form ref="form" :model="form" label-width="75px" :rules="rules">
                 <el-form-item label="账号" required>
                     <el-input v-model="form.userName" placeholder="请输入账号"></el-input>
                 </el-form-item>
                 <el-form-item label="密码" required>
                     <el-input v-model="form.password" placeholder="请输入密码"></el-input>
                 </el-form-item>
-                <el-form-item label="联系方式">
+                <el-form-item label="联系方式" required>
                     <el-input type="text" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="11" v-model="form.phoneNum" placeholder="请输入电话，只能是数字"></el-input>
                 </el-form-item>
-                <el-form-item label="公司名称">
+                <el-form-item label="公司名称" required>
                     <el-input v-model="form.companyName" placeholder="请输入公司名称"></el-input>
                 </el-form-item>
-                <el-form-item label="地址">
+                <el-form-item label="地址" required>
                     <el-input v-model="form.address" placeholder="请输入地址"></el-input>
                 </el-form-item>
                 <el-form-item label="权限" required>
@@ -180,7 +180,7 @@
                         <el-option key="2" label="显示结果" value="2"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="服务商" required>
+                <el-form-item label="B级账号" required>
                     <el-select v-model="form.sysUserName" placeholder="请选择" >
                         <el-option v-for="item in this.serviceName" :key="item" :label="item" :value="item">
                         </el-option>
@@ -345,6 +345,13 @@
                                     icon="el-icon-edit"
                                     v-if="scope.row.makeStatus=='5' && hasPerm('patientinfo:seeExpress')"
                                     @click="showExpress(scope.$index, scope.row)">
+                                查看快递
+                            </el-button>
+                            <el-button
+                                    type="text"
+                                    icon="el-icon-edit"
+                                    v-if="scope.row.makeStatus=='4'"
+                                    @click="onlyShowExpress(scope.$index, scope.row)">
                                 查看快递
                             </el-button>
                             <el-button
@@ -534,6 +541,36 @@
             </span>
         </el-dialog>
 
+        <!-- 仅查看快递信息框弹出 -->
+        <el-dialog title="编辑" :visible.sync="showExpressVisible" width="30%">
+            <el-form ref="form" :model="form" label-width="90px">
+                <el-form-item label="ID">
+                    <el-input v-model="form.patientId" disabled></el-input>
+                </el-form-item>
+                <el-form-item label="患者姓名">
+                    <el-input v-model="form.patientName" placeholder="请输入姓名" disabled></el-input>
+                </el-form-item>
+                <el-form-item label="收件人姓名">
+                    <el-input v-model="form.addressee" placeholder="请输入收件人姓名" disabled ></el-input>
+                </el-form-item>
+                <el-form-item label="收件人电话">
+                    <el-input v-model="form.addresseePhone" placeholder="请输入收件人电话" disabled></el-input>
+                </el-form-item>
+                <el-form-item label="收件人地址">
+                    <el-input v-model="form.toAddress" placeholder="请输入收件人地址" disabled></el-input>
+                </el-form-item>
+                <el-form-item label="快递单号">
+                    <el-input v-model="form.expressNumber" placeholder="请输入快递单号" disabled></el-input>
+                </el-form-item>
+                <el-form-item label="备注">
+                    <el-input v-model="form.expressRemark" placeholder="请输入备注" disabled></el-input>
+                </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer" v-if="this.form.makeStatus == 4">
+                <el-button @click="showExpressVisible = false">取 消</el-button>
+            </span>
+        </el-dialog>
+
         <!-- 价格框弹出 -->
         <el-dialog title="编辑" :visible.sync="priceVisible" width="45%">
             <el-row>
@@ -657,6 +694,7 @@ export default {
             patientVisible: false,
             expressVisible: false,
             updateExpressVisible: false,
+            showExpressVisible: false,
             priceVisible: false,
             totalRecords: 0,
             exportTotalRecords: 0,
@@ -728,6 +766,11 @@ export default {
 
         },
         getPatientData() {
+            if(this.query.userName != null && this.query.userName != ""){
+                if(this.query.userName.indexOf("full_") == -1){
+                    this.query.userName = "full_" + this.query.userName;
+                }
+            }
             fetchPatientData(this.query).then(res => {
                 this.patientData = res.results;
                 this.patientTotalRecords = res.totalRecords || 0;
@@ -813,6 +856,7 @@ export default {
         },
         // 触发新增按钮
         handleAdd(){
+            this.form = {};
             const queryResult = query => {
                 return request({
                     url: '/api/sysuser/allname',
@@ -1230,6 +1274,12 @@ export default {
             this.idx = index;
             this.form = row;
             this.updateExpressVisible = true;
+            this.getPatientData();
+        },
+        onlyShowExpress(index, row){
+            this.idx = index;
+            this.form = row;
+            this.showExpressVisible = true;
             this.getPatientData();
         },
         // 分页导航

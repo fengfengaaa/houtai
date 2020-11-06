@@ -33,7 +33,7 @@
 	<logger name="org.springframework">
 		<level value="INFO" />
 	</logger>
-	<root level="INFO">
+	<root level="DEBUG">
 		<appender-ref ref="APP" />
 		<appender-ref ref="STDOUT" />
 	</root>

@@ -42,8 +42,7 @@ public class SysUser extends BaseUser implements Serializable{
     @DateTimeFormat(pattern = "%Y-%m-%d %H:%i:%s")
     private String updateDate;
 
-    private Integer userIdCreate;//创建用户
-
+    private Integer userIdCreate;//所属用户姓名Id
     public Boolean isAdmin(){
         return accountType == 0 ? true : false;
     }
