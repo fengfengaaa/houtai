@@ -280,6 +280,7 @@
 			shoe_size = #{shoeSize},
 		    view_on_foot=#{viewOnFoot},
 		    plantar_pressure=#{plantarPressure},
+			houtai_remark=#{houtaiRemark},
 			<if test="weightDistribution != null and weightDistribution != ''">
 				weight_distribution = #{weightDistribution},
 			</if>

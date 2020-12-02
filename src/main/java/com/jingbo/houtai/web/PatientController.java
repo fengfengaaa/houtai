@@ -49,6 +49,7 @@ public class PatientController {
         if (bindingResult.hasErrors()) {
             return JsonResult.fail(bindingResult.getFieldError().getDefaultMessage());
         }
+        log.info("===>开始添加患者");
         int patientId;
         try{
   /*          List<Patient> patientByName = patientServiceImpl.getPatientByName(patient.getPatientName());
@@ -65,6 +66,7 @@ public class PatientController {
             }
             if(principal instanceof User){
                 String userName = ((User) principal).getUserName();
+                log.info("==>添加患者 当前登录用户：" + userName);
                 Integer userId = ((User) principal).getUserId();
                 patient.setUserName(userName);
                 patient.setUserId(userId);
@@ -113,6 +115,7 @@ public class PatientController {
         result.put("TEMPLATES",templatesList);
         result.put("CALCULATION",calculationsList);
         result.put("PATIENTID",patientId);
+        log.info("===>添加患者结束");
         return JsonResult.success(result);
     }
 
@@ -153,11 +156,12 @@ public class PatientController {
 
 
     @PostMapping("/app/update")
-    public JsonResult APPupdatePatientInfo(@Valid @RequestBody Patient patient,BindingResult bindingResult){
+    public JsonResult aPPupdatePatientInfo(@Valid @RequestBody Patient patient,BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
             return JsonResult.fail(bindingResult.getFieldError().getDefaultMessage());
         }
         try{
+            log.info("==>开始更新患者");
             patient.setUpdateDate(DateUtil.format(new Date(),"yyyy-MM-dd HH:mm:ss"));
             patientServiceImpl.updatePatient(patient);
         }catch(Exception e){
@@ -169,6 +173,7 @@ public class PatientController {
         Map calculations = CalculationUtil.CalculationMaterial(patient);
         result.put("TEMPLATES",data);
         result.put("CALCULATION",calculations);
+        log.info("==>更新患者结束");
         return JsonResult.success(result);
     }
 
@@ -178,7 +183,7 @@ public class PatientController {
     * @date 2020/8/25 0025 18:45
      */
     @PostMapping("/app/updateFilePath")
-    public JsonResult APPupdatePatientFilePath(@RequestParam(name = "reportPath",required = true)String reportPath,@RequestParam(name = "filePath",required = true)String filePath,@RequestParam(name = "patientId",required = true) Integer patientId){
+    public JsonResult aPPupdatePatientFilePath(@RequestParam(name = "reportPath",required = true)String reportPath,@RequestParam(name = "filePath",required = true)String filePath,@RequestParam(name = "patientId",required = true) Integer patientId){
         try{
             Patient patient = patientServiceImpl.getPatientByid(patientId);
             if(patient == null){
@@ -260,72 +265,76 @@ public class PatientController {
     }
 
     @GetMapping("/all")
-    public PageResult<Patient> getAllPatientInfo(@Valid PatientParam patientParam){
+    public PageResult<Patient> getAllPatientInfo(@Valid PatientParam patientParam) {
         PageResult<Patient> result = new PageResult();
-        try{
+        try {
             Subject subject = ShiroUtils.getSubject();
             Object principal = subject.getPrincipal();
-            if (principal instanceof SysUser) {
-                Integer accountType = ((SysUser) principal).getAccountType();
-                Integer userIdCreate = ((SysUser) principal).getUserIdCreate();
-                if(AccountTypeEnum.SERVICE.getType().equals(accountType)){//服务商账号只有自己名下的机器
-                    List<String> userNames = this.userServiceImpl.getUserNameBySysUserName(((SysUser) principal).getUserName());
-                    patientParam.setUserNames(userNames);
-                }
-                if(AccountTypeEnum.MAKE.getType().equals(accountType)){//制作账号 只能查看待制作、制作中的鞋垫数据 如果快递账号是服务商下边的用户只能查看服务商的权限
-                    List makestatus = new ArrayList();
-                    makestatus.add(1);
-                    makestatus.add(2);
-                    patientParam.setMakeStatus(makestatus);
-                    SysUser sysUser = this.sysUserServiceImpl.getSysUserByid(userIdCreate);
-                    if(sysUser != null){
-                        if(AccountTypeEnum.SERVICE.getType().equals(sysUser.getAccountType())){
-                            List<String> userNames = this.userServiceImpl.getUserNameBySysUserName(sysUser.getUserName());
-                            patientParam.setUserNames(userNames);
-                        }else if(AccountTypeEnum.ORDINARYROOT.getType().equals(sysUser.getAccountType())){ //普通root
-                            patientParam.setSysUserName(sysUser.getUserName());
+            if (StringUtil.isBlank(patientParam.getSysUserName())) {
+                if (principal instanceof SysUser) {
+                    Integer accountType = ((SysUser) principal).getAccountType();
+                    Integer userIdCreate = ((SysUser) principal).getUserIdCreate();
+                    if (AccountTypeEnum.SERVICE.getType().equals(accountType)) {//服务商账号只有自己名下的机器
+                        List<String> userNames = this.userServiceImpl.getUserNameBySysUserName(((SysUser) principal).getUserName());
+                        patientParam.setUserNames(userNames);
+                    }
+                    if (AccountTypeEnum.MAKE.getType().equals(accountType)) {//制作账号 只能查看待制作、制作中的鞋垫数据 如果快递账号是服务商下边的用户只能查看服务商的权限
+                        List makestatus = new ArrayList();
+                        makestatus.add(1);
+                        makestatus.add(2);
+                        patientParam.setMakeStatus(makestatus);
+                        SysUser sysUser = this.sysUserServiceImpl.getSysUserByid(userIdCreate);
+                        if (sysUser != null) {
+                            if (AccountTypeEnum.SERVICE.getType().equals(sysUser.getAccountType())) {
+                                List<String> userNames = this.userServiceImpl.getUserNameBySysUserName(sysUser.getUserName());
+                                patientParam.setUserNames(userNames);
+                            } else if (AccountTypeEnum.ORDINARYROOT.getType().equals(sysUser.getAccountType())) { //普通root
+                                patientParam.setSysUserName(sysUser.getUserName());
+                            }
                         }
                     }
-                }
-                if(AccountTypeEnum.EXPRESS.getType().equals(accountType)){//快递账号 只能查看制作完成的鞋垫数据
-                    List makestatus = new ArrayList();
-                    makestatus.add(3);
-                    patientParam.setMakeStatus(makestatus);
+                    if (AccountTypeEnum.EXPRESS.getType().equals(accountType)) {//快递账号 只能查看制作完成的鞋垫数据
+                        List makestatus = new ArrayList();
+                        makestatus.add(3);
+                        patientParam.setMakeStatus(makestatus);
 
-                    SysUser sysUser = this.sysUserServiceImpl.getSysUserByid(userIdCreate);
-                    if(sysUser != null){
-                        if(AccountTypeEnum.SERVICE.getType().equals(sysUser.getAccountType())){
-                            List<String> userNames = this.userServiceImpl.getUserNameBySysUserName(sysUser.getUserName());
-                            patientParam.setUserNames(userNames);
-                        }else if(AccountTypeEnum.ORDINARYROOT.getType().equals(sysUser.getAccountType())){ //普通root
-                            patientParam.setSysUserName(sysUser.getUserName());
+                        SysUser sysUser = this.sysUserServiceImpl.getSysUserByid(userIdCreate);
+                        if (sysUser != null) {
+                            if (AccountTypeEnum.SERVICE.getType().equals(sysUser.getAccountType())) {
+                                List<String> userNames = this.userServiceImpl.getUserNameBySysUserName(sysUser.getUserName());
+                                patientParam.setUserNames(userNames);
+                            } else if (AccountTypeEnum.ORDINARYROOT.getType().equals(sysUser.getAccountType())) { //普通root
+                                patientParam.setSysUserName(sysUser.getUserName());
+                            }
                         }
                     }
-                }
 
-                if(AccountTypeEnum.FINANCE.getType().equals(accountType) || AccountTypeEnum.OPERATE.getType().equals(accountType) || AccountTypeEnum.ORDINARYROOT.getType().equals(accountType)){//运营、财务账号 只能查看他们隶属于的服务商下边的权限
-                    SysUser sysUser = this.sysUserServiceImpl.getSysUserByid(userIdCreate);
-                    if(sysUser != null){
-                        if(AccountTypeEnum.SERVICE.getType().equals(sysUser.getAccountType())){
-                            List<String> userNames = this.userServiceImpl.getUserNameBySysUserName(sysUser.getUserName());
-                            patientParam.setUserNames(userNames);
-                        }else if(AccountTypeEnum.ORDINARYROOT.getType().equals(sysUser.getAccountType())){ //普通root
-                            patientParam.setSysUserName(sysUser.getUserName());
+                    if (AccountTypeEnum.FINANCE.getType().equals(accountType) || AccountTypeEnum.OPERATE.getType().equals(accountType) || AccountTypeEnum.ORDINARYROOT.getType().equals(accountType)) {//运营、财务账号 只能查看他们隶属于的服务商下边的权限
+                        SysUser sysUser = this.sysUserServiceImpl.getSysUserByid(userIdCreate);
+                        if (sysUser != null) {
+                            if (AccountTypeEnum.SERVICE.getType().equals(sysUser.getAccountType())) {
+                                List<String> userNames = this.userServiceImpl.getUserNameBySysUserName(sysUser.getUserName());
+                                patientParam.setUserNames(userNames);
+                            } else if (AccountTypeEnum.ORDINARYROOT.getType().equals(sysUser.getAccountType())) { //普通root
+                                patientParam.setSysUserName(sysUser.getUserName());
+                            }
                         }
                     }
-                }
 
            /*     if(AccountTypeEnum.ORDINARYROOT.getType().equals(accountType)){//普通root只能查看他名下的服务商的机器下的账号
                     patientParam.setSysUserName(((SysUser) principal).getUserName());
                 }*/
-            }else{
-                String userName = ((User) principal).getUserName();
-                List<String> userNames = new ArrayList<>();
-                userNames.add(userName);
-                patientParam.setUserNames(userNames);
+                } else {
+                    String userName = ((User) principal).getUserName();
+                    List<String> userNames = new ArrayList<>();
+                    userNames.add(userName);
+                    patientParam.setUserNames(userNames);
+                }
+            } else {
+                patientParam.setSysUserName(null);
             }
             result = patientServiceImpl.getAllPatient(patientParam);
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return result;

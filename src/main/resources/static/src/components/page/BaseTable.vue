@@ -276,6 +276,7 @@
                         </template>
                     </el-table-column>
                     <el-table-column prop="makePurpose" width="100" label="制作用途"></el-table-column>
+                    <el-table-column prop="houtaiRemark" width="100" label="备注"></el-table-column>
                   <!--  <el-table-column width="80" label="用途">
                         <template slot-scope="scope">
                             <el-tag effect="dark" v-if="scope.row.makePurpose=='0'" type="danger">篮球</el-tag>
@@ -476,6 +477,9 @@
                 </el-form-item>
                 <el-form-item label="地址">
                     <el-input v-model="form.address" placeholder="请输入地址"></el-input>
+                </el-form-item>
+                <el-form-item label="备注">
+                    <el-input v-model="form.houtaiRemark" placeholder="请输入备注"></el-input>
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">

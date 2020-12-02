@@ -65,6 +65,7 @@ public class Patient implements Serializable {
     private Integer pixelPosition;//像素位置 用于App
     private String makePurpose;//要制作鞋垫的类型 0 篮球、1 足球、2 跑步、3 滑雪、4 高尔夫、5 骑行、6 室内运动、7 舒适、8 皮鞋
     private String sysUserName;//普通用户
+    private String houtaiRemark;//后台备注
     public Patient(){
     }
     public Patient(String json) throws JsonProcessingException {//解决不能解析json的问题 貌似是springboot的问题
