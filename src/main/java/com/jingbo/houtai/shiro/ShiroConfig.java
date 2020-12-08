@@ -90,7 +90,7 @@ public class ShiroConfig {
 
         filterChainDefinitionMap.put("/api/patient/all", "roles[0,2,4,5,6]");
         filterChainDefinitionMap.put("/api/patient/batchdelete", "roles[0,6]");
-        filterChainDefinitionMap.put("/api/patient/update", "roles[0,6]");
+        filterChainDefinitionMap.put("/api/patient/update", "roles[0,5,6]");
         filterChainDefinitionMap.put("/api/patient/delete", "roles[0,6]");
         filterChainDefinitionMap.put("/api/patient/update/insoleState", "roles[0,3,5,6,7]");
         filterChainDefinitionMap.put("/api/patient/update/express", "roles[0,4,6]");

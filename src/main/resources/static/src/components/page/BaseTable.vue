@@ -301,6 +301,11 @@
                             >编辑</el-button>
                             <el-button
                                     type="text"
+                                    icon="el-icon-edit"
+                                    @click="handlePatientEditRemark(scope.$index, scope.row)"
+                            >编辑备注</el-button>
+                            <el-button
+                                    type="text"
                                     icon="el-icon-delete"
                                     class="red"
                                     @click="handlePatientDelete(scope.$index, scope.row)"
@@ -478,9 +483,9 @@
                 <el-form-item label="地址">
                     <el-input v-model="form.address" placeholder="请输入地址"></el-input>
                 </el-form-item>
-                <el-form-item label="备注">
+          <!--      <el-form-item label="备注">
                     <el-input v-model="form.houtaiRemark" placeholder="请输入备注"></el-input>
-                </el-form-item>
+                </el-form-item>-->
             </el-form>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="editPatientVisible = false,form = {}">取 消</el-button>
@@ -488,6 +493,54 @@
             </span>
         </el-dialog>
 
+        <!-- 编辑备注弹出框 -->
+        <el-dialog title="编辑" :visible.sync="editPatientRemarkVisible" width="30%">
+            <el-form ref="form" :model="form" label-width="70px">
+                <el-form-item label="ID">
+                    <el-input v-model="form.patientId" disabled></el-input>
+                </el-form-item>
+                <el-form-item label="姓名">
+                    <el-input v-model="form.patientName" placeholder="请输入姓名" disabled></el-input>
+                </el-form-item>
+                <el-form-item label="性别">
+                    <el-select v-model="form.sex" placeholder="请选择" disabled>
+                        <el-option  label="男" :value=1></el-option>
+                        <el-option  label="女" :value=0></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="联系方式">
+                    <el-input type="text" disabled onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="11" v-model="form.phoneNum" placeholder="请输入电话，只能是数字"></el-input>
+                </el-form-item>
+                <el-form-item label="出生日期">
+                    <el-col :span="11">
+                        <el-date-picker
+                                type="date"
+                                placeholder="选择日期"
+                                v-model="form.birthday"
+                                value-format="yyyy-MM-dd"
+                                style="width: 250px;"
+                                disabled
+                        ></el-date-picker>
+                    </el-col>
+                </el-form-item>
+                <el-form-item label="身高">
+                    <el-input v-model="form.height" disabled onkeyup="value=value.replace(/[^\d^\.]/g,'')" placeholder="请输入身高CM"></el-input>
+                </el-form-item>
+                <el-form-item label="体重">
+                    <el-input v-model="form.weight" disabled onkeyup="value=value.replace(/[^\d^\.]/g,'')" placeholder="请输入体重KG"></el-input>
+                </el-form-item>
+                <el-form-item label="地址">
+                    <el-input v-model="form.address" disabled placeholder="请输入地址"></el-input>
+                </el-form-item>
+                <el-form-item label="备注">
+                    <el-input v-model="form.houtaiRemark" placeholder="请输入备注"></el-input>
+                </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="editPatientRemarkVisible = false,form = {}">取 消</el-button>
+                <el-button type="primary" @click="savePatientRemarkEdit">确 定</el-button>
+            </span>
+        </el-dialog>
 
         <!-- 快递框弹出 -->
         <el-dialog title="编辑" :visible.sync="expressVisible" width="30%">
@@ -693,6 +746,7 @@ export default {
             serviceName: [],
             editVisible: false,
             editPatientVisible: false,
+            editPatientRemarkVisible: false,
             addVisible: false,
             passwordVisible: false,
             patientVisible: false,
@@ -1010,6 +1064,36 @@ export default {
         // 保存编辑
         savePatientEdit() {
             this.editPatientVisible = false;
+            const updateResult = query => {
+                query.foots = null;
+                return request({
+                    url: '/api/patient/update',
+                    method: 'post',
+                    params: query,
+                });
+            };
+
+            updateResult(this.form).then(res => {
+                var code = res.code;
+                var errorMessage = res.errorMessage;
+                if(code == 200){
+                    this.$message.success(`修改成功`);
+                    this.$set(this.patientData, this.idx, this.form);
+                }else{
+                    this.$message.error(errorMessage);
+                }
+            });
+        },
+        // 编辑备注操作
+        handlePatientEditRemark(index, row) {
+            this.idx = index;
+            this.form = row;
+            this.editPatientRemarkVisible = true;
+            this.getPatientData();
+        },
+        // 保存编辑
+        savePatientRemarkEdit() {
+            this.editPatientRemarkVisible = false;
             const updateResult = query => {
                 query.foots = null;
                 return request({

@@ -28,6 +28,7 @@ public class PriorityConfig {
         t1_c_set.add(new Symptom(1,FootConst.PURPOSE,new HashSet<>(Arrays.asList(3,5)),true,SymptomType.PURPOSE));
         t1_c_set.add(new Symptom(2,FootConst.MORTONNEUROMA,new HashSet<>(Arrays.asList(1,2,3)),true));
         t1_c_set.add(new Symptom(2,FootConst.RHEUMATISM,new HashSet<>(Arrays.asList(1,2,3)),true));
+        t1_c_set.add(new Symptom(3,FootConst.HALLUXVALGUS,new HashSet<>(Arrays.asList(1,2,3)),true));
         PriorityTemplate t1_c = new PriorityTemplate(TemplateType.C.name(),t1_c_set);
         template_one.add(t1_c);
 
