@@ -54,6 +54,7 @@ public class FileController {
                 return JsonResult.fail("上传图片失败");
             }
         } catch (Exception e) {
+            e.printStackTrace();
             return JsonResult.fail("上传图片失败");
         }
     }

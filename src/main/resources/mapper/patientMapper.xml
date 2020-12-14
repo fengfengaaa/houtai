@@ -42,7 +42,7 @@
 		<result column="express_number" property="expressNumber" jdbcType="VARCHAR" javaType="String"/>
 		<result column="express_remark" property="expressRemark" jdbcType="VARCHAR" javaType="String"/>
 		<result column="weight_distribution" property="weightDistribution" jdbcType="VARCHAR" javaType="String"/>
-		<result column="pixel_position" property="pixelPosition" jdbcType="INTEGER" javaType="Integer"/>
+		<result column="pixel_position" property="pixelPosition" jdbcType="VARCHAR" javaType="String"/>
 		<result column="make_purpose" property="makePurpose" jdbcType="VARCHAR" javaType="String"/>
 		<collection property="foots" javaType="ArrayList" ofType="foot" column="patient_id" select="com.jingbo.houtai.dao.FootMapper.getFootByPatientId">
 		<!--	<id property="footId" column="foot_id" jdbcType="INTEGER" javaType="Integer"/>
